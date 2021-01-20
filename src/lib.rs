@@ -31,16 +31,6 @@ impl MiniTokio {
     /// Run through all tasks in the task queue and drive them
     /// to completion.
     pub fn run(&mut self) {
-        // Wakers present a way for resources to notify the waiting
-        // task that the resource has become ready to continue some
-        // operation.
-        //
-        // They're what allow the executor to not needlessly burn
-        // CPU cycles constantly polling tasks that haven't made
-        // any progress.
-        // let waker = futures::task::noop_waker();
-        // let mut cx = Context::from_waker(&waker);
-
         while let Ok(task) = self.scheduled.recv() {
             task.poll();
         }

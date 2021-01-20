@@ -24,6 +24,14 @@ impl Task {
     pub fn poll(self: Arc<Self>) {
         // Create a waker from the `Task` instance. This
         // uses the `ArcWake` impl.
+        //
+        // Wakers present a way for resources to notify the waiting
+        // task that the resource has become ready to continue some
+        // operation.
+        //
+        // They're what allow the executor to not needlessly burn
+        // CPU cycles constantly polling tasks that haven't made
+        // any progress.
         let waker = task::waker(self.clone());
         let mut cx = Context::from_waker(&waker);
 
